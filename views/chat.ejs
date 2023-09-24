@@ -4,126 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
     <title>elter-chat</title>
     <style>
+     
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;400;600&display=swap');
 
         *{
             margin: 0px;
             padding: 0px;
+            font-family: 'Kanit', sans-serif;
+            
         }
 
         .container{
             display:flex;
             width: 100vw;
             height: 100vh;
-            background-color: rgb(36, 36, 36);
+            background-color: #00010D;
         }
 
         .lateral {
             width: 15%;
+            margin-right: 20px;
             height: 100%;
             min-height: 100%;
         }
 
         .main{
-            display: flex;
-            flex-direction: column;
+            background-color: #011F26;
             width: 85%;
             height: 100%;
         }
 
         .chat{
-            display: flex;
-            flex-direction: column;
+           
             height: 90%;
-            background-color: rgb(53, 53, 53);
+            background-color: #011F26;
         }
 
         .input{
-            display: flex;
-            width: 50%;
-            height: 10%;
-            background-color: rgb(104, 104, 104);
-            justify-content: center;
-            align-items: center;
-            align-self: center;
+
+            
         }
 
         .txt > h1 {
-            color: white;
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: 500;
-            font-size: 24px;
+            font-family: 'Kanit', sans-serif;
+            color: #BFB69B;
+            
+            font-weight: 600;
+            font-size: 25px;
             padding: 10px;
             text-align: center;
+           
         }
 
         .txt{
             border-bottom: 2px solid grey;
+            
         }
 
         input{
             font-size: 22px;
-            background-color: rgb(209, 209, 209);
+            background-color: #011F26;
             width: 80%;
             height: 50%;
             border-radius: 6px;
             border: 0px;
+            margin-left: 10px;
+            border: none;
+            outline: 1px solid rgb(250, 250, 250);
+            outline-offset: 10px;
+            margin: 5px 5px 5px 30px;
+            padding-left: 20px;
+            
+        }
+        input:hover{
+            outline: 2px solid #3D6973;
+            animation: 1s;
         }
 
         input::placeholder{
-            padding-left: 15px;
+            
             font-size: 22px;
         }
 
         button{
-            margin-left: 2.5%;
-            width: 15%;
-            color: grey;
-            height: 50%;
+            position: absolute;
+            top: 871px;
+            width: 10%;
+            height: 58px;
+            
+            color: black;
+            border: 1px solid rgb(250, 250, 250);
+          
+            margin-left: 40px;
+            background-color: #00010d00;
+            border-radius: 30px;
+        }
+        button:hover{
+            border: 2px solid #3D6973;
+            animation: 1s;
         }
 
         .msg_user, .msg_bot {
-            display: flex;
-            max-width: 50%;
-            height: auto;
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 15px;
+            width: 500px;
+            border: 1px solid rgb(0, 0, 0);
+            
+            text-align: justify;
+            line-height: 30px;
+            padding: 25px 600px 25px 464px;
+            margin-bottom: 10px;
+            margin-left: 6px;
+            box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.377);
+            
+            
+            
+            border-radius: 15px;
+            
+           
+        }
+        .msg_user > h1, .msg_bot > h1{
+            font-size: 15.5px;
+            font-weight: 400;
+            color: #F2E6D8;
         }
 
         .msg_user {
-            align-self: flex-end;
-            background-color: rgb(3, 143, 89);
-            margin-right: 10px;
+            
+           
+            
+           
+           
         }
 
         .msg_bot {
-            align-self: flex-start;
-            background-color: rgb(65, 115, 255);
-            margin-left: 10px;
+            
+            background-color: #2d4e55;
+            
         }
-
-        .msg_user > h1, .msg_bot > h1{
-            font-family: Arial;
-            font-size: 16px;
-            color: white;
-        }
-
+       
+       
         .new_chat {
             width: 100%;
-            height: 10%;
+            
             border-radius: 6px;
-            align-self: center;
+            text-align: left;
+            margin-top: 10px;
+            padding: 5px;
+            
+            
         }
 
         .new_chat:hover{
-            background-color: aqua;
+            background-color: #bfb69ba4;
+            transition: 1s;
         }
 
         .new_chat > h1 {
-            font-family: Arial, Helvetica, sans-serif;
             font-size: 18px;
+            
+        }
+        .new_chat > h1 > a{
+            text-decoration: none;
+            color: #F2E6D8;
         }
     </style>
 </head>
@@ -131,7 +175,7 @@
     <div class="container">
         <div class="lateral">
             <div class="txt">
-                <h1 id="new_chat">new chat</h1>
+                <h1 id="new_chat">Novo chat</h1>
             </div>
             
             <% if (chats && chats.length > 0) { %>
