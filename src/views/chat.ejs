@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <title>elter-chat</title>
+    <link rel="stylesheet" href="/css/chat.css">
+</head>
+<body>
+    <div class="hidden" style="display: none;" id="<%- id %>"></div>
+    <div class="container">
+        <div class="lateral">
+            <div class="txt">
+                <h1 id="new_chat">Novo chat</h1>
+            </div>
+            
+            <% if (chats && chats.length > 0) { %>
+                <% chats.map((a) => { %>
+                    <div class="new_chat">
+                        <h1><a href="/chat/<%= a._id %>"><%= a.name %></a></h1>
+                    </div>
+                  <% }); %>
+            <% } else { %>
+              <p>Nenhum chat encontrado.</p>
+            <% } %>
+        </div>
+
+        <div class="main">
+            <div class="chat">
+                <% if (chat_history && chat_history.length > 0) { %>
+                    <% chat_history.map((a) => { %>
+                        <% const tag = a.bot ? "msg_bot" : "msg_user", start = a.bot ? "bot: " : "user: "; %>
+                        <div class="<%- tag %>">
+                            <h1><%- start + a.message %></h1>
+                        </div>
+                    <% }); %>
+                <% } %>
+            </div>
+
+            <div class="input">
+                <input type="text" placeholder="Digite sua mensagem..." id="msg">
+                <button style="font-size:32px" class="submit"><i class="material-icons">send</i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/custom/chat.js"></script>
+</body>
+</html>

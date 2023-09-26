@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>elter-chat</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <div class="container"> 
+        <div class="lateral">
+            <div class="txt">
+                <h1 id="new_chat">Novo chat</h1>
+            </div>    
+             <% if (chats && chats.length > 0) { %>
+                  <% chats.map((a) => { %>
+                    <div class="new_chat">
+                        <h1><a href="/chat/<%= a._id %>"><%= a.name %></a></h1>
+                    </div>
+                  <% }); %>
+              <% } else { %>
+                <p>Nenhum chat encontrado.</p>
+              <% } %>
+        </div>
+
+        <div class="main">
+            <div class="chat">
+                <h1>Crie um novo chat para poder conversar com o bot</h1>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/custom/index.js"></script>
+</body>
+</html>

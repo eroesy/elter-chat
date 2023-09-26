@@ -6,26 +6,31 @@ import path from "path";
 import http from "http";
 import dotenv from "dotenv"
 import { Server } from 'socket.io';
+import { obfuscate } from "./obfuscator/obfs.mjs"
+export const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-/* TODO LIST: */
-// implementar algo reenviar mensagens antigas, mudando contexto, etc
-// implementar na db algo para o nome do chat, algo como: primeira conversa... algo do tipo. nao sei como o chatgpt seleciona isso.
-// refazer algumas partes desse codigo atual, ta bem merda de ler e da pra melhorar.
-
-dotenv.config();
-mongoose.connect(process.env.DB_URL).then(() => {
-    console.log("conectado a database :)");
+dotenv.config({
+    path: "./.env"
 });
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+mongoose.connect(process.env.DB_URL).then(() => {
+    console.log("conectado a database :)");
+    obfuscate();
+    server.listen(8080);
+});
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'views')));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname, 'public/views'));
+
+app.use(express.urlencoded({
+    extended: true
+}));
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API
@@ -141,5 +146,3 @@ app.get("/chat/:id", async (req, res) => {
         });
     }
 });
-
-server.listen(8080);
