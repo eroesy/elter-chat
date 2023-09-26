@@ -13,6 +13,8 @@ export function obfuscate() {
     const script_path = `${path.join(__dirname, 'views', 'scripts')}`;
     const custom_path = `${path.join(__dirname, 'views', 'custom')}`;
 
+    fs.mkdir(custom_path, a => {});
+
     const all_files = fs.readdirSync(script_path);
     for (let i = 0; i < all_files.length; i++) {
 
