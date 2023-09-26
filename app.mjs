@@ -23,15 +23,16 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'public/views'));
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API
 });
 
 const Chat = mongoose.model("Chat", {
+    name: String,
     date: Date,
     messages: String
 });
@@ -102,25 +103,22 @@ io.on('connection', (socket) => {
 
     });
 
-    socket.on("create_new_chat", async () => {
+    socket.on("create_new_chat", async (data) => {
         const chat = new Chat({
+            name: data,
             date: Date.now(),
             messages: JSON.stringify([])
         });
 
         const new_chat = await chat.save();
-        socket.emit("new_chat", new_chat._id);
+        socket.emit("new_chat", [new_chat._id, new_chat.name]);
     });
 });
 
 app.get("/", async (req, res) => {
     try {
         const chats = await Chat.find();
-        let all_ids = []
-        chats.map((a) => {
-            all_ids.push(a._id.toString());
-        })
-        res.render("index", {chats: all_ids});
+        res.render("index", {chats: chats});
     }
     catch(err) {
         res.send({
@@ -130,19 +128,12 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/chat/:id", async (req, res) => {
-
     try {
         const id = req.params.id;
-
-        const chat = await Chat.findById(id).select("messages");
+        const chat = await Chat.findById(id);
         const chats = await Chat.find();
 
-        let all_ids = [];
-        chats.map((a) => {
-            all_ids.push(a._id.toString());
-        })
-
-        res.render("chat", {chat_history: JSON.parse(chat.messages), chats: all_ids, id: id});
+        res.render("chat", {chat_history: JSON.parse(chat.messages), chats: chats, id: id});
     }
     catch(err) {
         res.send({

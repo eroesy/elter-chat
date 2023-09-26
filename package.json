@@ -1,4 +1,8 @@
 {
+  "name": "elter-chat",
+  "version": "1.0.0",
+  "description": "web-app simples inspirado no chatgpt, utiliza a api da openai (gpt-3.5-turbo).",
+  "main": "index.js",
   "dependencies": {
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
@@ -7,4 +11,22 @@
     "openai": "^4.10.0",
     "socket.io": "^4.7.2"
   }
+  ,
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.mjs",
+    "start": "node app.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mezleca/elter-chat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mezleca/elter-chat/issues"
+  },
+  "homepage": "https://github.com/mezleca/elter-chat#readme"
 }

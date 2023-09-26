@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <title>elter-chat</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Kanit', sans-serif;     
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        .container{
+            display:flex;
+            width: 100vw;
+            height: 100vh;
+            background-color: #00010D;
+        }
+
+        .lateral {
+            display: flex;
+            flex-direction: column;
+            min-width: 15%;
+            max-width: 25%;
+            height: 100%;
+            min-height: 100%;
+        }
+
+        .main {
+            display: flex;
+            background-color: #011F26;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .chat {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #011F26;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .txt > h1 {
+            font-family: 'Kanit', sans-serif;
+            color: #BFB69B;       
+            font-weight: 600;
+            font-size: 26px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 10px;
+            background-color: #011F26;
+            border-radius: 6px;
+            transition: 1s; 
+        }
+
+        .txt {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;   
+        }
+
+        .txt:hover {
+            cursor: pointer;
+        }
+
+        .txt:hover > h1 {
+            background-color: #3D6973;
+            transition: 1s;
+        }
+
+        input {
+            font-size: 22px;
+            background-color: #011f2600;
+            width: 80%;
+            height: 50%;
+            border-radius: 6px;
+            border: 0px;
+            margin-left: 10px;
+            outline: 1px solid rgba(250, 250, 250, 0.5);
+            outline-offset: 10px;
+            margin: 5px 5px 5px 30px;
+            padding-left: 20px;       
+        }
+
+        input:hover {
+            outline: 1px solid #3D6973;
+            animation: 2s;
+        }
+
+        input::placeholder {   
+            font-size: 22px;
+        }
+
+        button:hover {
+            border: 2px solid #3D6973;
+            animation: 1s;
+        }
+
+        .msg_user, .msg_bot {
+            display: flex;
+            width: 95%;
+            height: 25%;
+            border: 1px solid rgb(0, 0, 0);     
+
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 6px;
+
+            box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.377);         
+            border-radius: 15px;
+
+            align-items: center;
+
+            padding: 25px;
+        }
+
+        .msg_user > h1, .msg_bot > h1 {
+            font-size: 15.5px;
+            font-weight: 400;
+            color: #F2E6D8;
+        }
+
+        .msg_bot {         
+            background-color: #2d4e55;        
+        }
+           
+        .new_chat {   
+            border-radius: 6px;
+            text-align: left;
+            margin-top: 10px;
+            padding: 5px;
+            color: white;
+            background-color: #bfb69ba4;
+            transition: 1s; 
+        }
+
+        .new_chat:hover {
+            background-color: #bfb69b00;
+            transition: 1s;
+        }
+
+        .new_chat > h1 {
+            font-size: 18px;
+            
+        }
+        .new_chat > h1 > a {
+            text-decoration: none;
+            color: #F2E6D8;
+        }
+
+        .new_chat > h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .input {
+            display: flex;
+            flex-direction: row;
+            height: 10%;
+            background-color: rgba(83, 83, 83, 0.397);
+            justify-content: center;
+            align-items: center;
+        }
+
+        input {
+            width: 50%;
+            color: white;
+            margin-right: 25px;
+        }
+
+        .submit {
+            background-color: #2d4e5500;
+            border: 1px solid rgba(255, 255, 255, 0.384);
+            color: white;
+            border-radius: 6px;
+            width: 10%;
+            height: 75%;
+        }
+
+        @media (max-width: 1500px) {
+            .msg_bot, .msg_user {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 745px) {
+            .msg_bot, .msg_user {
+                width: 88%;
+            }
+
+            .submit {
+                width: 25%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .msg_bot, .msg_user {
+                width: 75%;
+            }
+
+            .lateral {
+                width: 12%;
+            }
+
+            .txt > h1 {
+                font-size: 16px;
+            }
+
+            .new_chat > h1 {
+                font-size: 16px;
+            }
+
+            .input {
+                flex-direction: start;
+            }
+
+            input::placeholder{
+                font-size: 14px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            background-color: rgba(0,0,0,0);
+            -webkit-border-radius: 100px;
+        }
+
+        ::-webkit-scrollbar:hover {
+            background-color: rgba(0, 0, 0, 0.09);
+        }
+
+        ::-webkit-scrollbar-thumb:vertical {
+            background: rgba(0,0,0,0.5);
+            -webkit-border-radius: 100px;
+        }
+        ::-webkit-scrollbar-thumb:vertical:active {
+            background: rgba(0,0,0,0.61);
+            -webkit-border-radius: 100px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lateral">
+            <div class="txt">
+                <h1 id="new_chat">Novo chat</h1>
+            </div>
+            
+            
+                
+                    <div class="new_chat">
+                        <h1><a href="/chat/6510c96c388c2770cf32fc83">24</a></h1>
+                    </div>
+                  
+            
+        </div>
+
+        <div class="main">
+            <div class="chat">                  
+                <div class="msg_user">
+                    <h1>eae arrombado</h1>
+                </div>
+                                
+                <div class="msg_bot">
+                    <h1>Eae, meu consagrado! Qual é a boa?</h1>
+                </div>             
+                
+                <div class="msg_user">
+                    <h1>qual a boa o caralho</h1>
+                </div>              
+                
+                <div class="msg_bot">
+                    <h1>A boa é você aprender química e programação, meu consagrado! Quem sabe assim você para de falar bobeira e fica mais inteligente, né? Hahaha!</h1>
+                </div>          
+                
+                <div class="msg_user">
+                    <h1>vamos jogar um jogo, quando eu falar fire voce responde com water ok?</h1>
+                </div>          
+                
+                <div class="msg_bot">
+                    <h1>Claro, meu consagrado! Vamos jogar! Quando você falar "fire", eu respondo com "water". Estou pronto! Manda brasa!</h1>
+                </div>            
+                
+                <div class="msg_user">
+                    <h1>fire</h1>
+                </div>
+                        
+                <div class="msg_bot">
+                    <h1>water</h1>
+                </div>
+                            
+                <div class="msg_user">
+                    <h1>top</h1>
+                </div>
+                        
+                <div class="msg_bot">
+                    <h1>E aí, meu consagrado! Tá tudo top por aí?</h1>
+                </div>       
+            </div>
+
+            <div class="input">
+                <input type="text" placeholder="Digite sua mensagem..." id="msg">
+                <button style="font-size:18px" class="submit">enviar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
