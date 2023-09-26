@@ -1,6 +1,6 @@
 const button = document.querySelector(".submit");
 const chat = document.querySelector("#new_chat");
-const id = document.querySelector(".hidden");
+const id = document.querySelector(".hidden").innerHTML;
 
 const socket = io();
 
