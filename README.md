@@ -10,3 +10,6 @@
 - por ultimo, inicie com "npm start". (caso tenha o nodemon instalado utilize "npm run dev")
 
 [demo](https://streamable.com/itr8nc)
+
+# creditos
+- @eroesy (ajudou pra krl com o design)
