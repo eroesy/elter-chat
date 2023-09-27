@@ -6,8 +6,8 @@ import path from "path";
 import http from "http";
 import dotenv from "dotenv"
 import { Server } from 'socket.io';
-import { obfuscate } from "./obfuscator/obfs.mjs"
-export const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 dotenv.config({
     path: "./.env"
@@ -15,7 +15,6 @@ dotenv.config({
 
 mongoose.connect(process.env.DB_URL).then(() => {
     console.log("conectado a database :)");
-    obfuscate();
     server.listen(8080);
 });
 
