@@ -11,5 +11,8 @@
 
 [demo](https://streamable.com/itr8nc)
 
+# TODO:
+- conseguir voltar mensagens
+
 # creditos
 - @eroesy (ajudou pra krl com o design)
