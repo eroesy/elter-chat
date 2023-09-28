@@ -30,10 +30,15 @@
         <div class="main">
             <div class="chat">
                 <% if (chat_history && chat_history.length > 0) { %>
-                    <% chat_history.map((a) => { %>
-                        <% const tag = a.bot ? "msg_bot" : "msg_user", start = a.bot ? "bot: " : "user: "; %>
-                        <div class="<%- tag %>">
+                    <% chat_history.map((a, i) => { %>
+                        <% const tag = a.bot ? "msg_bot" : "msg_user", start = a.bot ? "<h1 class='bold' style='font-size: 20px; font-weight: 700;'>bot:<h1>" : ""; %>
+                        <div class="<%- tag %> msg" id="<%- i %>">
                             <h1><%- start + a.message %></h1>
+                            <% if (tag == "msg_user")  {%>
+                                <div class="options">
+                                    <h1 class="edit">editar</h1>
+                                </div>
+                            <% } %>
                         </div>
                     <% }); %>
                 <% } %>
