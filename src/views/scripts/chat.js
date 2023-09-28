@@ -88,11 +88,11 @@ document.querySelector(".chat").addEventListener("click", (event) => {
 
 function append_message(content, bot) {
 
-    const msg = [...content];
-    const chat = document.querySelector(".chat");
-
     if (!content)
         return;
+
+    const msg = [...content];
+    const chat = document.querySelector(".chat");
 
     const msgs = document.querySelector(".chat").children.length || 0;
     const msg_id = msgs;
@@ -101,7 +101,6 @@ function append_message(content, bot) {
     const div = document.createElement("div");
     const bot_h1 = document.createElement("h1");
     
-
     div.setAttribute("class", bot ? "msg_bot" : "msg_user");
     bot_h1.setAttribute("class", "bold");
     bot_h1.setAttribute("style", "font-size: 20px; font-weight: 700;");
