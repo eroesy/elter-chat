@@ -25,7 +25,6 @@ document.querySelector(".chat").addEventListener("click", (event) => {
         const msg_id = Number(msg_div.id);
 
         const all_divs = [...document.querySelector(".chat").children];
-        console.log(all_divs);
         const original_msg = msg_div.children[0].innerHTML;
 
         msg_div.innerHTML =
@@ -135,7 +134,6 @@ function append_message(content, bot) {
 }
 
 socket.on("msg", (data) => {
-    console.log(data);
     append_message(data, true);
 });
 
