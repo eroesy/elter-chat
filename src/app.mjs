@@ -41,6 +41,14 @@ const Chat = mongoose.model("Chat", {
     messages: String
 });
 
+function filterArrayByRange(array, start, finish) {
+    if (start < 0 || start > array.length || finish < 0 || finish > array.length) {
+      return [];
+    }
+  
+    return array.filter((_, index) => index < start || index > finish);
+}
+
 async function new_message(question, history) {
     try {
         const response = await openai.chat.completions.create({
@@ -135,7 +143,7 @@ io.on('connection', (socket) => {
             const all_msgs = await Chat.findOne({_id: chat_id});
             const messages = [...JSON.parse(all_msgs.messages)];
 
-            const msgs = messages.splice(0, id);
+            const msgs = filterArrayByRange(messages, id, messages.length);
             msgs.push({message: edited_msg, bot: false});
 
             const history = [msgs.filter((a) => { return a.message })];

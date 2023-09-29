@@ -1,20 +1,12 @@
-const button = document.querySelector(".submit");
-const chat = document.querySelector("#new_chat");
+const submit_button = document.querySelector(".submit");
 const id = document.querySelector(".hidden").innerHTML;
 
-const socket = io();
-
-let editing = false;
-
-function new_chat(name, id) {
-    const lateral = document.querySelector(".lateral");
-
-    lateral.innerHTML += 
-    `
-        <div class="new_chat">
-            <h1><a href="/chat/${id}">${name}</a></h1>
-        </div>
-    `
+function filterArrayByRange(array, start, finish) {
+    if (start < 0 || start > array.length || finish < 0 || finish > array.length) {
+      return [];
+    }
+  
+    return array.filter((_, index) => index < start || index > finish);
 }
 
 document.querySelector(".chat").addEventListener("click", (event) => {
@@ -23,8 +15,6 @@ document.querySelector(".chat").addEventListener("click", (event) => {
 
         const msg_div = event.target.parentNode.parentNode;
         const msg_id = Number(msg_div.id);
-
-        const all_divs = [...document.querySelector(".chat").children];
         const original_msg = msg_div.children[0].innerHTML;
 
         msg_div.innerHTML =
@@ -50,10 +40,7 @@ document.querySelector(".chat").addEventListener("click", (event) => {
             const all_divs = [...document.querySelector(".chat").children];
             const text = text_area.value;
 
-            const new_messages = all_divs.filter((div) => {
-                const msgid = Number(div.id);
-                return msgid < msg_id;
-            });
+            const new_messages = filterArrayByRange(all_divs, msg_id, all_divs.length);
 
             document.querySelector(".chat").innerHTML = "";
 
@@ -100,7 +87,7 @@ function append_message(content, bot) {
     const element = document.createElement("h1");
     const div = document.createElement("div");
     const bot_h1 = document.createElement("h1");
-    
+
     div.setAttribute("class", bot ? "msg_bot" : "msg_user");
     bot_h1.setAttribute("class", "bold");
     bot_h1.setAttribute("style", "font-size: 20px; font-weight: 700;");
@@ -111,7 +98,7 @@ function append_message(content, bot) {
 
         div.appendChild(bot_h1);
         div.appendChild(element);
-        chat.appendChild(div)
+        chat.appendChild(div);
 
         const interval = setInterval(() => {
             element.innerHTML += msg[0];
@@ -125,8 +112,11 @@ function append_message(content, bot) {
     else {
         chat.innerHTML += 
         `
-        <div class="msg_${bot ? "bot" : "user"}">
+        <div class="msg_${bot ? "bot" : "user"}" id="${msg_id}">
             <h1>${content}</h1>
+            <div class="options">
+                <h1 class="edit">editar</h1>
+            </div>
         </div>
         `;
     }
@@ -136,16 +126,7 @@ socket.on("msg", (data) => {
     append_message(data, true);
 });
 
-socket.on("new_chat", (data) => {
-    new_chat(data[1], data[0]);
-});
-
-chat.addEventListener("click", (event) => {
-    const date = new Date();
-    socket.emit("create_new_chat", date.getDate());
-});
-
-button.addEventListener("click", () => {
+submit_button.addEventListener("click", () => {
     const input_text = document.getElementById("msg").value;
 
     if (!input_text)

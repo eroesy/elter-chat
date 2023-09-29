@@ -9,11 +9,10 @@
 - abra o terminal e digite npm install.
 - por ultimo, inicie com "npm start"
 
-[demo](https://streamable.com/itr8nc)
+[showcase](https://streamable.com/kixe0g)
 
 # TODO:
 - melhorar o css
-- refazer sistema de chats (salas)
 
 # creditos
 - @eroesy (ajudou pra krl com o design)
