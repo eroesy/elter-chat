@@ -6,6 +6,7 @@ import path from "path";
 import http from "http";
 import dotenv from "dotenv"
 import { Server } from 'socket.io';
+import { error } from 'console';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -139,7 +140,7 @@ io.on('connection', (socket) => {
             const id = data[0];
             const edited_msg = data[2];
             const chat_id = data[3];
-
+             
             const all_msgs = await Chat.findOne({_id: chat_id});
             const messages = [...JSON.parse(all_msgs.messages)];
 
