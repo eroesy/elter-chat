@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <title>elter-chat</title>
+    <style>
+     
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;400;600&display=swap');
+
+        *{
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Kanit', sans-serif;
+            
+        }
+
+        .container{
+            display:flex;
+            width: 100vw;
+            height: 100vh;
+            background-color: #00010D;
+        }
+
+        .lateral {
+            width: 15%;
+            margin-right: 20px;
+            height: 100%;
+            min-height: 100%;
+        }
+
+        .main{
+            background-color: #011F26;
+            width: 85%;
+            height: 100%;
+        }
+
+        .chat{
+           
+            height: 90%;
+            background-color: #011F26;
+        }
+
+        .input{
+
+            
+        }
+
+        .txt > h1 {
+            font-family: 'Kanit', sans-serif;
+            color: #BFB69B;
+            
+            font-weight: 600;
+            font-size: 25px;
+            padding: 10px;
+            text-align: center;
+           
+        }
+
+        .txt{
+            border-bottom: 2px solid grey;
+            
+        }
+
+        input{
+            font-size: 22px;
+            background-color: #011F26;
+            width: 80%;
+            height: 50%;
+            border-radius: 6px;
+            border: 0px;
+            margin-left: 10px;
+            border: none;
+            outline: 1px solid rgb(250, 250, 250);
+            outline-offset: 10px;
+            margin: 5px 5px 5px 30px;
+            padding-left: 20px;
+            
+        }
+        input:hover{
+            outline: 2px solid #3D6973;
+            animation: 1s;
+        }
+
+        input::placeholder{
+            
+            font-size: 22px;
+        }
+
+        button{
+            position: absolute;
+            top: 871px;
+            width: 10%;
+            height: 58px;
+            
+            color: black;
+            border: 1px solid rgb(250, 250, 250);
+          
+            margin-left: 40px;
+            background-color: #00010d00;
+            border-radius: 30px;
+        }
+        button:hover{
+            border: 2px solid #3D6973;
+            animation: 1s;
+        }
+
+        .msg_user, .msg_bot {
+            width: 500px;
+            border: 1px solid rgb(0, 0, 0);
+            
+            text-align: justify;
+            line-height: 30px;
+            padding: 25px 600px 25px 464px;
+            margin-bottom: 10px;
+            margin-left: 6px;
+            box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.377);
+            
+            
+            
+            border-radius: 15px;
+            
+           
+        }
+        .msg_user > h1, .msg_bot > h1{
+            font-size: 15.5px;
+            font-weight: 400;
+            color: #F2E6D8;
+        }
+
+        .msg_user {
+            
+           
+            
+           
+           
+        }
+
+        .msg_bot {
+            
+            background-color: #2d4e55;
+            
+        }
+       
+       
+        .new_chat {
+            width: 100%;
+            
+            border-radius: 6px;
+            text-align: left;
+            margin-top: 10px;
+            padding: 5px;
+            
+            
+        }
+
+        .new_chat:hover{
+            background-color: #bfb69ba4;
+            transition: 1s;
+        }
+
+        .new_chat > h1 {
+            font-size: 18px;
+            
+        }
+        .new_chat > h1 > a{
+            text-decoration: none;
+            color: #F2E6D8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lateral">
+            <div class="txt">
+                <h1 id="new_chat">Novo chat</h1>
+            </div>
+            
+            <% if (chats && chats.length > 0) { %>
+                <% chats.map((a) => { %>
+                  <div class="new_chat">
+                      <h1><a href="/chat/<%= a %>"><%= a %></a></h1>
+                  </div>
+                <% }); %>
+            <% } else { %>
+              <p>Nenhum chat encontrado.</p>
+            <% } %>
+        </div>
+
+        <div class="main">
+            <div class="chat">
+                <% if (chat_history && chat_history.length > 0) { %>
+                    <% chat_history.map((a) => { %>
+                        <% const tag = a.bot ? "msg_bot" : "msg_user"; %>
+                        <div class="<%- tag %>">
+                            <h1><%- a.message %></h1>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                  <p>Nenhum chat encontrado.</p>
+                <% } %>
+            </div>
+
+            <div class="input">
+                <input type="text" placeholder="Digite sua mensagem..." id="msg">
+                <button style="font-size:32px" class="submit"><i class="material-icons">send</i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const button = document.querySelector(".submit");
+        const chat = document.querySelector("#new_chat");
+        const socket = io();
+
+        const id = `<%- id %>`
+
+        function new_chat(name, id) {
+            const lateral = document.querySelector(".lateral");
+
+            lateral.innerHTML += 
+            `
+                <div class="new_chat">
+                    <h1><a href="/chat/${id}">${name}</a></h1>
+                </div>
+            `
+        }
+
+        function append_message(content, bot) {
+            const chat = document.querySelector(".chat");
+
+            if (!content)
+                return;
+
+            const text = `
+            <div class="msg_${bot ? "bot" : "user"}">
+                <h1>${content}</h1>
+            </div>
+            `
+
+            chat.innerHTML += text;
+        }
+
+        socket.on("msg", (data) => {
+            console.log(data);
+            append_message(data, true);
+        });
+
+        socket.on("new_chat", (data) => {
+            new_chat("cleide", data);
+        });
+
+        chat.addEventListener("click", (event) => {
+            socket.emit("create_new_chat");
+        });
+
+        button.addEventListener("click", () => {
+            const input_text = document.getElementById("msg").value;
+
+            if (!input_text)
+                return;
+
+            socket.emit("msg", [false, id, input_text]);
+            append_message(input_text, false);
+        });
+    </script>
+</body>
+</html>
